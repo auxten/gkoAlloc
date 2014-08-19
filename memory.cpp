@@ -12,12 +12,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <string.h>
 #include <assert.h>
 #include <sys/types.h>
 
 #include "memory.h"
-
-#include "log.h"
 
 
 gkoAlloc::gkoAlloc(void)
@@ -53,11 +52,11 @@ int gkoAlloc::get_bit(u_int8_t * b)
     int i;
     for (i = 0; i < 8; i++)
     {
-        if ((u_int8_t)((*b >> 7 - i) << 7) == (u_int8_t)0u)
+        if ((u_int8_t)((*b >> (7 - i)) << 7) == (u_int8_t)0u)
             break;
     }
 
-    *b |= (u_int8_t)( 1u << 7 - i);
+    *b |= (u_int8_t)( 1u << (7 - i));
 
     return i;
 }
@@ -72,7 +71,7 @@ int gkoAlloc::free_bit(u_int8_t * b, int index)
      *  byte    11111010
      */
 
-    *b ^= (u_int8_t)( 1u << 7 - index);
+    *b ^= (u_int8_t)( 1u << (7 - index));
 
     return index;
 }
